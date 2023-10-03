@@ -1,8 +1,6 @@
 package main
 
 import (
-	"net/url"
-
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/container"
@@ -44,23 +42,18 @@ func main() {
 	menuOp2 := fyne.NewMenu("Settings", menuItem4, menuItem5)
 	menuOp3 := fyne.NewMenu("Help", menuItem6, menuItem7)
 
+	menuItem4.ChildMenu = fyne.NewMenu(
+		"",
+		fyne.NewMenuItem("Oscuro", func() {
+			a.Settings().SetTheme(theme.DarkTheme())
+		}),
+		fyne.NewMenuItem("Claro", func() {
+			a.Settings().SetTheme(theme.LightTheme())
+		}),
+	)
 	menu := fyne.NewMainMenu(menuOp1, menuOp2, menuOp3)
 
 	w.SetMainMenu(menu)
-
-	// Widget Check
-	checkTheme := widget.NewCheck("Tema Oscuro", func(value bool) {
-		if value {
-			a.Settings().SetTheme(theme.DarkTheme())
-		} else {
-			a.Settings().SetTheme(theme.LightTheme())
-		}
-	})
-	checkTheme.Resize(fyne.NewSize(20, 20))
-	checkTheme.Move(fyne.NewPos(380, 15))
-
-	// Widget de Texto
-	hello := widget.NewLabel("Hello Fyne!")
 
 	// Widget del input
 	textBox := widget.NewEntry()
@@ -69,28 +62,21 @@ func main() {
 	textBox.Move(fyne.NewPos(1.5, 455))
 
 	// Widget Button Sender
-	sendButton := widget.NewButtonWithIcon("", iconSend, func() {
-		newText := "Q bola!"
-		hello.SetText(newText)
-	})
+	sendButton := widget.NewButtonWithIcon("", iconSend, nil)
 	sendButton.Resize(fyne.NewSize(40, 40))
 	sendButton.Move(fyne.NewPos(460, 455))
 
-	// Widget hyperlink
-	url, _ := url.Parse("http://192.168.4.1")
-	myLink := widget.NewHyperlink("Ir al modo Wifi", url)
-	myLink.Resize(fyne.NewSize(130, 20))
-	myLink.Move(fyne.NewPos(20, 300))
+	/* 	// Widget hyperlink
+	   	url, _ := url.Parse("http://192.168.4.1")
+	   	myLink := widget.NewHyperlink("Ir al modo Wifi", url)
+	   	myLink.Resize(fyne.NewSize(130, 20))
+	   	myLink.Move(fyne.NewPos(20, 300)) */
 
 	// Container para Input + Sender Button
 	//inputAndSend := container.NewHBox(textBox, sendButton)
 
 	// Window Content
 	appBox := container.NewWithoutLayout(
-		//hello,
-		checkTheme,
-		myLink,
-		//inputAndSend,
 		textBox,
 		sendButton,
 	)
